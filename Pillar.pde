@@ -13,14 +13,14 @@ class Pillar extends ez_Entity {
     {
     case PILLAR_TYPE_UP:
       setImage("images/pillar_haut.png");
-      setRight(width);
+      setLeft(width);
       setTop(0);
       break;
 
     case PILLAR_TYPE_DOWN:
       setImage("images/pillar_bas.png");
       setBottom(height);
-      setRight(width);
+      setLeft(width);
       break;
 
     default:
@@ -41,7 +41,7 @@ class Pillar extends ez_Entity {
   void reset() {
     touchLeft=false;
     setSpeedX(0);
-    setRight(width);
+    setLeft(width);
   }
 
   void update(float dt) {

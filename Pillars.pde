@@ -12,7 +12,7 @@ class Pillars {
     pillar_up= new Pillar(Pillar.PILLAR_TYPE_UP);
     pillar_down= new Pillar(Pillar.PILLAR_TYPE_DOWN);
 
-    speed=150;
+    speed=180;
     touchedLeft=false;
     newWave();
   }

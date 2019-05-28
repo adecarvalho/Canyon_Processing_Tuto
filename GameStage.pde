@@ -7,6 +7,7 @@ class GameStage extends ez_Stage {
 
   private Pillars pillars=null;
 
+  private Plane plane=null;
 
 
   //
@@ -21,16 +22,23 @@ class GameStage extends ez_Stage {
     tabRock[1]= new Rock(Rock.ROCK_TYPE_DOWN);
 
     pillars= new Pillars();
+
+    plane= new Plane(width/3, height/2);
   }
 
-  //
   void input() {
+    if (gInputManager.isKeyPressed(32))
+    {
+      plane.jump();
+    }
   }
+
 
   //
   void update(float dt) {
 
     input();
+
 
     paysage.update(dt);
 
@@ -49,6 +57,9 @@ class GameStage extends ez_Stage {
       //score
       pillars.newWave();
     }
+
+    //plane
+    plane.update(dt);
   }
 
   //
@@ -63,7 +74,9 @@ class GameStage extends ez_Stage {
     {
       item.render();
     }
-     
+
+    //plane
+    plane.render();
   }
 
   //
