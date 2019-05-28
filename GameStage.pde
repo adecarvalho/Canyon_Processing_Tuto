@@ -5,6 +5,8 @@ class GameStage extends ez_Stage {
 
   private Rock[] tabRock=null;
 
+  private Pillars pillars=null;
+
 
 
   //
@@ -17,6 +19,8 @@ class GameStage extends ez_Stage {
 
     tabRock[0]= new Rock(Rock.ROCK_TYPE_UP);
     tabRock[1]= new Rock(Rock.ROCK_TYPE_DOWN);
+
+    pillars= new Pillars();
   }
 
   //
@@ -35,11 +39,23 @@ class GameStage extends ez_Stage {
     {
       item.update(dt);
     }
+
+    //pillars
+    pillars.update(dt);
+
+    //touch left
+    if (pillars.isTouchedLeft()==true)
+    {
+      //score
+      pillars.newWave();
+    }
   }
 
   //
   void render() {
     paysage.render();
+
+    pillars.render();
 
 
     //rocks
@@ -47,6 +63,7 @@ class GameStage extends ez_Stage {
     {
       item.render();
     }
+     
   }
 
   //
