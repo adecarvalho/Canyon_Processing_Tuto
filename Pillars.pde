@@ -44,11 +44,31 @@ class Pillars {
     }
   }
 
+  //collide plane
+  boolean isCollidePlane(Plane plane) {
+    int state= plane.getState();
+    
+    if(state!= plane.PLANE_STATE_FLY)
+    {
+      return false;
+    }
+    
+    //
+    if(pillar_down.isCollide(plane) || pillar_up.isCollide(plane))
+    {
+      newWave();
+      return true;
+    }
+    return false;
+  }
+
+
+
   void update(float dt) {
     pillar_down.update(dt);
     pillar_up.update(dt);
-    
-    if(pillar_down.isTouchLeft() || pillar_up.isTouchLeft())
+
+    if (pillar_down.isTouchLeft() || pillar_up.isTouchLeft())
     {
       touchedLeft=true;
     }

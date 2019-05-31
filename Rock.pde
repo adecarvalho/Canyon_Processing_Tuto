@@ -31,13 +31,13 @@ class Rock extends ez_Entity {
     }
     //
     setSpeedX(-speedModule);
-    inflate(0,15);
+    inflate(0, 15);
   }
 
   void update(float dt) {
     super.update(dt);
-    
-    if(getLeft() < -width)
+
+    if (getLeft() < -width)
     {
       setLeft(0);
     }
@@ -45,9 +45,7 @@ class Rock extends ez_Entity {
 
   void render() {
     super.render();
-    
-    super.renderDebug();
-    
+
+    // super.renderDebug();
   }
-  
 }

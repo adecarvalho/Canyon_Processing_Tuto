@@ -18,16 +18,20 @@ float timer=0;
 ez_InputManager gInputManager=null;
 ez_StageManager gStageManager=null;
 
+Minim gMinim=null;
 
 //
 void setup() {
   size(800, 480);
+  
+  gMinim= new Minim(this);
 
   gInputManager= new ez_InputManager();
 
   gStageManager= new ez_StageManager();
 
   gStageManager.addStage(new GameStage());
+  //gStageManager.addStage(new ConcluStage());
 }
 
 

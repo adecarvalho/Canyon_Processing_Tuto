@@ -1,6 +1,6 @@
 //
 class GameStage extends ez_Stage {
-
+ 
   private Paysage paysage=null;
 
   private Rock[] tabRock=null;
@@ -9,10 +9,23 @@ class GameStage extends ez_Stage {
 
   private Plane plane=null;
 
+  private ez_Label labelPoints=null;
+  private ez_Label labelLives=null;
+
+  private int points=0;
+  private int lives=3;
+  
+  private AudioPlayer gameMusic=null;
+  
+  private AudioSample boom=null;
+  private AudioSample ding=null;
+
 
   //
   GameStage() {
     super();
+    
+    gameMusic= gMinim.loadFile("musics/plane.mp3");
 
     paysage= new Paysage();
 
@@ -24,6 +37,48 @@ class GameStage extends ez_Stage {
     pillars= new Pillars();
 
     plane= new Plane(width/3, height/2);
+
+    //score
+    labelPoints= new ez_Label("fonts/free.ttf", 30);
+    labelPoints.setColorText(color(51));
+    labelPoints.setText("Points");
+
+    labelLives= new ez_Label("fonts/free.ttf", 30);
+    labelLives.setColorText(color(51));
+    labelLives.setText("Lives");
+    
+    //sounds
+    boom= gMinim.loadSample("sounds/boom.wav",256);
+    ding= gMinim.loadSample("sounds/ding.wav",256);
+  }
+
+  //collisions
+  void collisions() {
+
+    //rock-plane
+    for (Rock item : tabRock)
+    {
+      if (plane.getState()==plane.PLANE_STATE_FLY && plane.isCollide(item))
+      {
+        lives--;
+        
+        plane.touched();
+        pillars.newWave();
+        
+        boom.trigger();
+      }
+    }
+
+
+    //pillars-plane
+    if (pillars.isCollidePlane(plane))
+    {
+      lives=lives-1;
+      
+      plane.touched();
+      
+      boom.trigger();
+    }
   }
 
   void input() {
@@ -54,12 +109,29 @@ class GameStage extends ez_Stage {
     //touch left
     if (pillars.isTouchedLeft()==true)
     {
-      //score
       pillars.newWave();
+      
+      if(plane.getState()==plane.PLANE_STATE_FLY)
+      {
+        points++;
+        
+        ding.trigger();
+      }
     }
 
     //plane
     plane.update(dt);
+
+    //test collisions
+    collisions();
+    
+    //is Game Over
+    if(lives <0)
+    {
+      StringDict msg= new StringDict();
+      msg.set("SCORE",str(points));
+      gStageManager.changeStage(new ConcluStage(),msg);
+    }
   }
 
   //
@@ -77,14 +149,30 @@ class GameStage extends ez_Stage {
 
     //plane
     plane.render();
+    
+    //score
+    labelPoints.setText("Points: "+points);
+    labelPoints.render(30,30);
+    
+    labelLives.setText("Lives: "+lives);
+    labelLives.render(width-150,30);
   }
 
   //
   void onEnter(StringDict message) {
+    if(gameMusic!= null)
+    {
+      gameMusic.loop();
+    }
   }
 
   //
   void onExit() {
+    if(gameMusic!= null)
+    {
+      gameMusic.close();
+    }
+    
   }
 }
 //class end
